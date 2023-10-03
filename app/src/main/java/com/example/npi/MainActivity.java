@@ -40,6 +40,17 @@ public class MainActivity extends AppCompatActivity {
                         for (Pregunta pregunta : preguntas) {
                             stringBuilder.append("ID: ").append(pregunta.getId()).append("\n");
                             stringBuilder.append("Texto: ").append(pregunta.getPregunta()).append("\n\n");
+
+                            // Obtén las respuestas para esta pregunta
+                            List<Respuesta> respuestas = pregunta.getRespostes();
+                            if (respuestas != null) {
+                                for (Respuesta respuesta : respuestas) {
+                                    stringBuilder.append("Respuesta: ").append(respuesta.getEtiqueta()).append("\n");
+                                }
+                            }
+
+                            stringBuilder.append("\n");
+
                         }
                         final String resultText = stringBuilder.toString();
 
