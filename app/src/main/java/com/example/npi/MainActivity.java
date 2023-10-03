@@ -2,10 +2,14 @@ package com.example.npi;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.List;
 
@@ -41,6 +45,13 @@ public class MainActivity extends AppCompatActivity {
                             stringBuilder.append("ID: ").append(pregunta.getId()).append("\n");
                             stringBuilder.append("Texto: ").append(pregunta.getPregunta()).append("\n\n");
 
+                            // Obtén la URL de la imagen de la pregunta
+                            String urlPregunta = pregunta.getImatge();
+                            if (urlPregunta != null && !urlPregunta.isEmpty()) {
+                                // Cargar la imagen de la pregunta usando Picasso (o Glide)
+                                Picasso.get().load(urlPregunta).into((ImageView) findViewById(R.id.Imatges)); // Reemplaza "imageView" con tu ImageView
+                            }
+
                             // Obtén las respuestas para esta pregunta
                             List<Respuesta> respuestas = pregunta.getRespostes();
                             if (respuestas != null) {
@@ -71,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<Pregunta>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Pregunta>> call, @NonNull Throwable t) {
                 // Manejar errores de conexión
                 Log.d("TAG", "Error de conexión: " + t.getMessage());
             }
