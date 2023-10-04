@@ -20,12 +20,12 @@
             android:layout_height="wrap_content"
             android:text="Pregunta:" />
 
-        <!-- Respuestas -->
-        <TextView
-            android:id="@+id/textViewRespuestas"
-            android:layout_width="wrap_content"
+        <!-- Contenedor para los botones de respuesta -->
+        <LinearLayout
+            android:id="@+id/answersContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Respuestas:" />
+            android:orientation="vertical" />
 
         <!-- Imagen de la pregunta -->
         <ImageView
@@ -36,6 +36,8 @@
             android:scaleType="fitCenter" />
 
     </LinearLayout>
+
+
 
 
 </LinearLayout>

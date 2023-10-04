@@ -1,5 +1,6 @@
 package com.example.npi;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -27,25 +28,36 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private QuestionAdapter questionAdapter;
+    private List<Pregunta> preguntas; // Declarar la lista de preguntas
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Context context; // Agrega una variable para almacenar el contexto
+            recyclerView = findViewById(R.id.recyclerView); // Inicializa recyclerView
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            context = this; // Almacena el contexto actual
 
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            // Resto del código onCreate
+
+            // Cambia la creación del adaptador
+            questionAdapter = new QuestionAdapter(context, preguntas);
+            recyclerView.setAdapter(questionAdapter);
+
 
         APIService apiService = RetrofitClient.getApiService();
 
         Call<List<Pregunta>> call = apiService.getPreguntas();
         call.enqueue(new Callback<List<Pregunta>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Pregunta>> call, @NonNull Response<List<Pregunta>> response) {
+            public void onResponse(Call<List<Pregunta>> call, Response<List<Pregunta>> response) {
                 if (response.isSuccessful()) {
                     List<Pregunta> preguntas = response.body();
                     if (preguntas != null) {
-                        questionAdapter = new QuestionAdapter(preguntas);
+                        // Crear y configurar el adaptador aquí, dentro del onResponse
+                        questionAdapter = new QuestionAdapter(context, preguntas);
                         recyclerView.setAdapter(questionAdapter);
                     } else {
                         Log.d("TAG", "La lista de preguntas es nula");
@@ -54,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("TAG", "No se pudo obtener la lista de preguntas");
                 }
             }
+
 
             @Override
             public void onFailure(@NonNull Call<List<Pregunta>> call, @NonNull Throwable t) {
